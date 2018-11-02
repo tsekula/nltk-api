@@ -1,0 +1,47 @@
+https://textminingonline.com/dive-into-nltk-part-i-getting-started-with-nltk
+https://text-processing.com/demo/tag/
+
+nltk.pos_tag(nltk.word_tokenize("E.U. Rejects Italy's Budget, and Populists Dig In."))
+nltk.pos_tag(nltk.word_tokenize('They know President Trump has vowed to block them yet they press on. "We prefer to die on the American border than die in Honduras from hunger," one said.'))
+
+
+
+nltk.pos_tag(nltk.word_tokenize('They know President Trump has vowed to block them yet they press on. "We prefer to die on the American border than die in Honduras from hunger," one said.  One New Zealand lawmaker has accused another of trying to disguise a campaign contribution from a businessman with ties to the Chinese Communist Party.'))
+
+
+install:
+sudo pip install -U nltk
+import nltk
+nltk.download()
+ /usr/local/lib/python2.7/dist-packages/nltk
+sudo pip install -Iv nltk==3.4.1
+
+averaged_perceptron_tagger
+punkt
+brown or treebank?
+
+http://www.nltk.org/api/nltk.tag.html#nltk.tag.stanford.StanfordPOSTagger
+wget https://nlp.stanford.edu/software/stanford-postagger-full-2014-08-27.zip
+import nltk
+from nltk.tag.stanford import StanfordPOSTagger
+st = StanfordPOSTagger('/home/ubuntu/workspace/postagger/stanford/models/english-caseless-left3words-distsim.tagger', '/home/ubuntu/workspace/postagger/stanford/stanford-postagger.jar')
+
+from nltk.tag import StanfordNERTagger
+sn = StanfordNERTagger('/home/ubuntu/workspace/nerftagger/stanford/classifiers/english.all.3class.distsim.crf.ser.gz', '/home/ubuntu/workspace/nerftagger/stanford/stanford-ner.jar')
+
+st.tag('They know President Trump has vowed to block them yet they press on. "We prefer to die on the American border than die in Honduras from hunger," one said.  One New Zealand lawmaker has accused another of trying to disguise a campaign contribution from a businessman with ties to the Chinese Communist Party.'.split())
+
+sn.tag('Blistered Feet, Sleepless Nights. The Caravan Presses On.'.split())
+
+
+Headline?   Normal?
+NO          NO      wsj-0-18-bidirectional-distsim.tagger
+NO          NO      wsj-0-18-left3words-distsim.tagger
+BETTER      NO      wsj-0-18-caseless-left3words-distsim.tagger
+BETTER+     MEH     english-caseless-left3words-distsim.tagger
+NO          MEH     english-bidirectional-distsim.tagger
+NO          MEH-    english-left3words-distsim.tagger
+NO          NO      wsj-0-18-bidirectional-nodistsim.tagger
+NO          NO      wsj-0-18-left3words-nodistsim.tagger
+
+

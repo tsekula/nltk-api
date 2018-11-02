@@ -16,31 +16,42 @@ def get_chunk_tuples(tags):
     chunks = ne_chunk(tags)
     simple = []
     paired = []
-    fulltextaswords = ""
-    fulltextastags = ""
+    this_text = ""
+    this_tag = ""
+
     for elt in chunks:
         this_tuple = []
         if isinstance(elt, Tree):           # found named entities
             new = ""
             for tag in elt:
                 new = new + " " + tag[0]
-            this_tuple.append(new.strip());
-            this_tuple.append(elt.label());
+            #fulltextaswords = fulltextaswords + " " + new.strip()
+            #fulltextastags = fulltextastags + " {{" + elt.label() + "}}"
+            this_tuple.append(new.strip())
+            this_tuple.append(elt.label())
             paired.append(this_tuple);
         else:
-            if any(ext in elt[0] for ext in ['.', ',', '!', '\'', '\"', '?', ';', ':', u'’']):      # punctuation
-                fulltextaswords = fulltextaswords + elt[0]
-                fulltextastags = fulltextastags + "{{PUNCT}}"
-                this_tuple.append(elt[0]);
-                this_tuple.append("PUNCT");
-                paired.append(this_tuple);
+            if (len(elt[0])==1):        # handle punctuation
+                if (elt[0] in ['.', ',', '!', '\'', '\"', '?', ';', ':', '(', ')']):
+                    this_tag = "PUNCT"
+                else:
+                    this_tag = elt[1]
+                this_tuple.append(elt[0])
+                this_tuple.append(this_tag)
+                paired.append(this_tuple)
             else:       # regular words and POS tags
-                fulltextaswords = fulltextaswords + " " + elt[0]
-                fulltextastags = fulltextastags + " {{" + elt[1] + "}}"
+                if (len(elt[0])==2 or len(elt[0])==3):
+                    if (elt[0] in ['n\'t', '\'ll', '``', 'not', '\'\'']):
+                        this_tag = "PUNCT"
+                    else:
+                        this_tag = elt[1]
+                else:
+                    this_tag = elt[1]
                 this_tuple.append(elt[0]);
-                this_tuple.append(elt[1]);
+                this_tuple.append(this_tag);
                 paired.append(this_tuple);
-    return paired    
+    
+    return paired 
     
 
 
